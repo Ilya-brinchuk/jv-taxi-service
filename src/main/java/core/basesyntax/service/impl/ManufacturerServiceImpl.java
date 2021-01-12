@@ -15,7 +15,6 @@ public class ManufacturerServiceImpl implements ManufacturerService {
     @Override
     public Manufacturer create(Manufacturer manufacturer) {
         return manufacturerDao.create(manufacturer);
-
     }
 
     @Override

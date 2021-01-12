@@ -32,13 +32,13 @@ public class ManufacturerDaoImpl implements ManufacturerDao {
     @Override
     public Manufacturer update(Manufacturer manufacturer) {
         IntStream.range(0, Storage.manufacturers.size())
-                .filter(i -> Storage.manufacturers.get(i).getId() == manufacturer.getId())
+                .filter(i -> Storage.manufacturers.get(i).getId().equals(manufacturer.getId()))
                 .forEach(i -> Storage.manufacturers.set(i, manufacturer));
         return manufacturer;
     }
 
     @Override
     public boolean delete(Long id) {
-        return Storage.manufacturers.removeIf(manufacturer -> manufacturer.getId() == id);
+        return Storage.manufacturers.removeIf(manufacturer -> manufacturer.getId().equals(id));
     }
 }
