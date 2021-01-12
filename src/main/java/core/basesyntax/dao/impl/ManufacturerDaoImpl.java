@@ -34,8 +34,8 @@ public class ManufacturerDaoImpl implements ManufacturerDao {
     public Manufacturer update(Manufacturer manufacturer) {
         for (Manufacturer oldManufacturer : Storage.manufacturers) {
             if (oldManufacturer.getId() == manufacturer.getId()) {
-                Storage.manufacturers.remove(oldManufacturer);
-                Storage.manufacturers.add(manufacturer);
+                int index = Storage.manufacturers.indexOf(oldManufacturer);
+                Storage.manufacturers.set(index, manufacturer);
                 return manufacturer;
             }
         }
