@@ -16,6 +16,7 @@ public class Main {
         manufacturerService.create(toyota);
         manufacturerService.create(ford);
         manufacturerService.create(bmw);
+        System.out.println(manufacturerService.getAll());
         manufacturerService.delete(1L);
         System.out.println(manufacturerService.getAll());
         Manufacturer updateBmw = manufacturerService.get(3L);
