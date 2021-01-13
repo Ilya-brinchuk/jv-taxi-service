@@ -22,6 +22,11 @@ public class Main {
         manufacturerService.create(toyota);
         manufacturerService.create(ford);
         manufacturerService.create(bmw);
+        System.out.println(manufacturerService.get(1L));
+        bmw.setName("BMW company");
+        manufacturerService.update(bmw);
+        manufacturerService.delete(1L);
+        System.out.println(manufacturerService.getAll());
 
         DriverService driverService =
                 (DriverService) injector.getInstance(DriverService.class);
