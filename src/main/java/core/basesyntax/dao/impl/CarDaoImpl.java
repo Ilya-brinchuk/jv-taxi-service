@@ -44,9 +44,10 @@ public class CarDaoImpl implements CarDao {
 
     @Override
     public List<Car> getAllByDriver(Long driverId) {
-        return Storage.cars.stream().filter(car -> car.getDrivers()
-                .stream()
-                .anyMatch(driver -> driver.getId().equals(driverId)))
+        return Storage.cars.stream()
+                .filter(car -> car.getDrivers()
+                        .stream()
+                        .anyMatch(driver -> driver.getId().equals(driverId)))
                 .collect(Collectors.toList());
     }
 }
