@@ -1,7 +1,7 @@
 package core.basesyntax.model;
 
 public class Driver {
-    private long id;
+    private Long id;
     private String name;
     private String licenceNumber;
 
@@ -10,11 +10,11 @@ public class Driver {
         this.licenceNumber = licenceNumber;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -32,5 +32,14 @@ public class Driver {
 
     public void setLicenceNumber(String licenceNumber) {
         this.licenceNumber = licenceNumber;
+    }
+
+    @Override
+    public String toString() {
+        return "Driver{"
+                + "id=" + id
+                + ", name='" + name + '\''
+                + ", licenceNumber='" + licenceNumber
+                + '\'' + '}';
     }
 }
