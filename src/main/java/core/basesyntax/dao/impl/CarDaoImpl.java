@@ -5,6 +5,7 @@ import core.basesyntax.db.Storage;
 import core.basesyntax.lib.Dao;
 import core.basesyntax.model.Car;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -17,11 +18,10 @@ public class CarDaoImpl implements CarDao {
     }
 
     @Override
-    public Car get(Long id) {
+    public Optional<Car> get(Long id) {
         return Storage.cars.stream()
                 .filter(car -> car.getId().equals(id))
-                .findFirst()
-                .get();
+                .findFirst();
     }
 
     @Override

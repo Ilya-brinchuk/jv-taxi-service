@@ -12,9 +12,9 @@ import java.util.List;
 @Service
 public class CarServiceImpl implements CarService {
     @Inject
-    CarDao carDao;
+    private CarDao carDao;
     @Inject
-    DriverDao driverDao;
+    private DriverDao driverDao;
 
     @Override
     public Car create(Car car) {
@@ -23,7 +23,7 @@ public class CarServiceImpl implements CarService {
 
     @Override
     public Car get(Long id) {
-        return carDao.get(id);
+        return carDao.get(id).get();
     }
 
     @Override
@@ -43,24 +43,12 @@ public class CarServiceImpl implements CarService {
 
     @Override
     public void addDriverToCar(Driver driver, Car car) {
-        if (driver.getId() == null) {
-            driverDao.create(driver);
-        }
-        if (car.getId() == null) {
-            carDao.create(car);
-        }
         car.getDrivers().add(driver);
         carDao.update(car);
     }
 
     @Override
     public void removeDriverFromCar(Driver driver, Car car) {
-        if (driver.getId() == null) {
-            driverDao.create(driver);
-        }
-        if (car.getId() == null) {
-            carDao.create(car);
-        }
         car.getDrivers().remove(driver);
         carDao.update(car);
     }
