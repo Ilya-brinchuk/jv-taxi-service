@@ -23,13 +23,12 @@ public class ManufacturerDaoJdbcImpl implements ManufacturerDao {
         try (Connection connection = ConnectionUtil.getConnection()) {
             PreparedStatement preparedStatement =
                     connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
-            preparedStatement.setString(1,manufacturer.getName());
+            preparedStatement.setString(1, manufacturer.getName());
             preparedStatement.setString(2, manufacturer.getCountry());
             preparedStatement.executeUpdate();
             ResultSet resultSet = preparedStatement.getGeneratedKeys();
             if (resultSet.next()) {
                 manufacturer.setId(resultSet.getLong(1));
-                preparedStatement.close();
                 return manufacturer;
             }
             resultSet.close();
