@@ -29,14 +29,13 @@ public class ManufacturerDaoJdbcImpl implements ManufacturerDao {
             ResultSet resultSet = preparedStatement.getGeneratedKeys();
             if (resultSet.next()) {
                 manufacturer.setId(resultSet.getLong(1));
-                return manufacturer;
             }
             resultSet.close();
             preparedStatement.close();
+            return manufacturer;
         } catch (SQLException e) {
             throw new DataProcessingException("Can't insert manufacturer " + manufacturer, e);
         }
-        throw new DataProcessingException("Can't insert manufacturer " + manufacturer);
     }
 
     @Override
@@ -44,7 +43,7 @@ public class ManufacturerDaoJdbcImpl implements ManufacturerDao {
         String query = "SELECT * FROM manufacturers WHERE manufacturer_id = ? AND deleted = false";
         try (Connection connection = ConnectionUtil.getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setLong(1,id);
+            preparedStatement.setLong(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
             Optional<Manufacturer> optional = Optional.empty();
             if (resultSet.next()) {
@@ -82,7 +81,7 @@ public class ManufacturerDaoJdbcImpl implements ManufacturerDao {
                 + "WHERE manufacturer_id = ? AND deleted = false";
         try (Connection connection = ConnectionUtil.getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setString(1,manufacturer.getName());
+            preparedStatement.setString(1, manufacturer.getName());
             preparedStatement.setString(2, manufacturer.getCountry());
             preparedStatement.setLong(3, manufacturer.getId());
             int updatedRows = preparedStatement.executeUpdate();
@@ -103,7 +102,7 @@ public class ManufacturerDaoJdbcImpl implements ManufacturerDao {
         String query = "UPDATE manufacturers SET deleted = true WHERE manufacturer_id = ?";
         try (Connection connection = ConnectionUtil.getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setLong(1,id);
+            preparedStatement.setLong(1, id);
             int updatedRows = preparedStatement.executeUpdate();
             preparedStatement.close();
             if (updatedRows > 0) {
