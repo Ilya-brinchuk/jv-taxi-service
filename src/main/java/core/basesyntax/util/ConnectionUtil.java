@@ -1,5 +1,6 @@
 package core.basesyntax.util;
 
+import core.basesyntax.exception.DataProcessingException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -16,7 +17,7 @@ public class ConnectionUtil {
         try {
             connection = DriverManager.getConnection(url, dbProperties);
         } catch (SQLException throwable) {
-            throw new RuntimeException("Can't establish the connection to DB", throwable);
+            throw new DataProcessingException("Can't establish the connection to DB", throwable);
         }
         return connection;
     }
