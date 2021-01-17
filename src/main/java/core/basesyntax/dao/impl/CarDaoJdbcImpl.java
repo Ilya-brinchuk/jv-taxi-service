@@ -118,17 +118,17 @@ public class CarDaoJdbcImpl implements CarDao {
 
     @Override
     public List<Car> getAllByDriver(Long driverId) {
-        String query = " SELECT cars.car_id as car_id,"
-                + " cars.model as model,"
-                + " cars.manufacturer_id as manufacturer_id,"
-                + " manufacturers.manufacturer_country as manufacturer_country, "
-                + " manufacturers.manufacturer_name as manufacturer_name "
-                + "FROM cars_drivers "
-                + "INNER JOIN cars "
-                + "ON cars_drivers.car_id = cars.car_id "
-                + "INNER JOIN manufacturers "
-                + "ON cars.manufacturer_id = manufacturers.manufacturer_id "
-                + "WHERE cars_drivers.driver_id = ? AND cars.deleted = false";
+        String query = " SELECT c.car_id as car_id,"
+                + " c.model as model,"
+                + " c.manufacturer_id as manufacturer_id,"
+                + " m.manufacturer_country as manufacturer_country, "
+                + " m.manufacturer_name as manufacturer_name "
+                + "FROM cars_drivers cd "
+                + "INNER JOIN cars c "
+                + "ON cd.car_id = c.car_id "
+                + "INNER JOIN manufacturers m "
+                + "ON c.manufacturer_id = m.manufacturer_id "
+                + "WHERE cd.driver_id = ? AND c.deleted = false";
         try (Connection connection = ConnectionUtil.getConnection();
                 PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setLong(1, driverId);
