@@ -48,20 +48,22 @@ public class CarDaoJdbcImpl implements CarDao {
                 + "INNER JOIN manufacturers m "
                 + "ON c.manufacturer_id = m.id "
                 + "WHERE c.id = ? AND c.deleted = false";
+        Car car = null;
         try (Connection connection = ConnectionUtil.getConnection();
                 PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setLong(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
-            Optional<Car> optional = Optional.empty();
             if (resultSet.next()) {
-                Car car = getCarFromResultSet(resultSet);
-                car.setDrivers(getDriversFromCar(car.getId()));
-                return Optional.of(car);
+                car = getCarFromResultSet(resultSet);
             }
-            return optional;
+
         } catch (SQLException e) {
             throw new DataProcessingException("Can't get car by id " + id, e);
         }
+        if (car != null) {
+            car.setDrivers(getDriversFromCar(car.getId()));
+        }
+        return Optional.ofNullable(car);
     }
 
     @Override
@@ -74,13 +76,18 @@ public class CarDaoJdbcImpl implements CarDao {
                 + "Inner join manufacturers m "
                 + "ON c.manufacturer_id = m.id "
                 + "WHERE c.deleted = false";
+        List<Car> cars;
         try (Connection connection = ConnectionUtil.getConnection();
                 PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             ResultSet resultSet = preparedStatement.executeQuery();
-            return getCars(resultSet);
+            cars = getCars(resultSet);
         } catch (SQLException e) {
             throw new DataProcessingException("Can't get all cars ", e);
         }
+        for (Car car : cars) {
+            car.setDrivers(getDriversFromCar(car.getId()));
+        }
+        return cars;
     }
 
     @Override
@@ -92,7 +99,6 @@ public class CarDaoJdbcImpl implements CarDao {
             preparedStatement.setString(1, car.getModel());
             preparedStatement.setLong(2, car.getManufacturer().getId());
             preparedStatement.setLong(3, car.getId());
-            preparedStatement.executeUpdate();
             deleteDriversFromCar(car.getId());
             addDriversToCar(car);
             int updateRows = preparedStatement.executeUpdate();
@@ -134,21 +140,25 @@ public class CarDaoJdbcImpl implements CarDao {
                 + "INNER JOIN drivers d "
                 + "ON d.id = cd.driver_id "
                 + "WHERE cd.driver_id = ? AND c.deleted = false AND d.deleted = false";
+        List<Car> cars;
         try (Connection connection = ConnectionUtil.getConnection();
                 PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setLong(1, driverId);
             ResultSet resultSet = preparedStatement.executeQuery();
-            return getCars(resultSet);
+            cars = getCars(resultSet);
         } catch (SQLException e) {
             throw new DataProcessingException("Can't get cars by driver id " + driverId, e);
         }
+        for (Car car : cars) {
+            car.setDrivers(getDriversFromCar(car.getId()));
+        }
+        return cars;
     }
 
     private List<Car> getCars(ResultSet resultSet) throws SQLException {
         List<Car> cars = new ArrayList<>();
         while (resultSet.next()) {
             Car car = getCarFromResultSet(resultSet);
-            car.setDrivers(getDriversFromCar(car.getId()));
             cars.add(car);
         }
         return cars;
@@ -209,9 +219,8 @@ public class CarDaoJdbcImpl implements CarDao {
         try (Connection connection = ConnectionUtil.getConnection();
                 PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             List<Driver> drivers = car.getDrivers();
-            int quantityDrivers = drivers.size();
-            for (int i = 0; i < quantityDrivers; i++) {
-                preparedStatement.setLong(1, drivers.get(i).getId());
+            for (Driver driver : drivers) {
+                preparedStatement.setLong(1, driver.getId());
                 preparedStatement.setLong(2, car.getId());
                 preparedStatement.executeUpdate();
             }
