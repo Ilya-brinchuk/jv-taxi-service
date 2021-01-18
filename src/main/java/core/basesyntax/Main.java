@@ -24,8 +24,6 @@ public class Main {
         System.out.println(manufacturerService.getAll());
         manufacturerTesla.setName("Tesla Mask");
         System.out.println(manufacturerService.update(manufacturerTesla));
-        System.out.println(manufacturerService.delete(manufacturerTesla.getId()));
-        System.out.println(manufacturerService.delete(manufacturerTesla.getId()));
 
         DriverService driverService = (DriverService) injector.getInstance(DriverService.class);
         Driver driverBill = new Driver("Bill", "77728");
@@ -36,7 +34,6 @@ public class Main {
         driverJohn.setName("John Alison");
         System.out.println(driverService.update(driverJohn));
         System.out.println(driverService.get(driverJohn.getId()));
-        System.out.println(driverService.delete(driverJohn.getId()));
 
         CarService carService = (CarService) injector.getInstance(CarService.class);
         Car carBmw = new Car("X89", manufacturerBmw);
@@ -46,9 +43,14 @@ public class Main {
         driversForBmw.add(driverJohn);
         carBmw.setDrivers(driversForBmw);
         System.out.println(carService.update(carBmw));
-        System.out.println(carService.getAllByDriver(2L));
+        System.out.println(carService.getAllByDriver(driverJohn.getId()));
         System.out.println(carService.getAll());
         System.out.println(carService.get(carBmw.getId()));
+
         System.out.println(carService.delete(carBmw.getId()));
+        System.out.println(driverService.delete(driverJohn.getId()));
+        System.out.println(driverService.delete(driverJohn.getId()));
+        System.out.println(manufacturerService.delete(manufacturerTesla.getId()));
+        System.out.println(manufacturerService.delete(manufacturerTesla.getId()));
     }
 }

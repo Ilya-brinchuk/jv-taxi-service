@@ -18,7 +18,7 @@ import java.util.Optional;
 public class DriverDaoJdbcImpl implements DriverDao {
     @Override
     public Driver create(Driver driver) {
-        String query = "INSERT drivers (driver_name, driver_licence) VALUES(?, ?)";
+        String query = "INSERT drivers (name, licence) VALUES(?, ?)";
         try (Connection connection = ConnectionUtil.getConnection();
                 PreparedStatement preparedStatement =
                         connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
@@ -37,7 +37,7 @@ public class DriverDaoJdbcImpl implements DriverDao {
 
     @Override
     public Optional<Driver> get(Long id) {
-        String query = "SELECT * FROM drivers WHERE driver_id = ? AND deleted = false";
+        String query = "SELECT * FROM drivers WHERE id = ? AND deleted = false";
         try (Connection connection = ConnectionUtil.getConnection();
                 PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setLong(1, id);
@@ -70,8 +70,8 @@ public class DriverDaoJdbcImpl implements DriverDao {
 
     @Override
     public Driver update(Driver driver) {
-        String query = "UPDATE drivers SET driver_name = ?, driver_licence = ?"
-                + " WHERE driver_id = ? AND deleted = false";
+        String query = "UPDATE drivers SET name = ?, licence = ?"
+                + " WHERE id = ? AND deleted = false";
         try (Connection connection = ConnectionUtil.getConnection();
                 PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setString(1, driver.getName());
@@ -90,7 +90,7 @@ public class DriverDaoJdbcImpl implements DriverDao {
 
     @Override
     public boolean delete(Long id) {
-        String query = "UPDATE drivers SET deleted = true WHERE driver_id = ?";
+        String query = "UPDATE drivers  SET deleted = true WHERE id = ?";
         try (Connection connection = ConnectionUtil.getConnection();
                 PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setLong(1, id);
@@ -102,9 +102,9 @@ public class DriverDaoJdbcImpl implements DriverDao {
     }
 
     private Driver getDriverFromResultSet(ResultSet resultSet) throws SQLException {
-        long driverId = resultSet.getObject("driver_id", Long.class);
-        String name = resultSet.getString("driver_name");
-        String licenceNumber = resultSet.getString("driver_licence");
+        long driverId = resultSet.getObject("id", Long.class);
+        String name = resultSet.getString("name");
+        String licenceNumber = resultSet.getString("licence");
         Driver driver = new Driver(name,licenceNumber);
         driver.setId(driverId);
         return driver;
