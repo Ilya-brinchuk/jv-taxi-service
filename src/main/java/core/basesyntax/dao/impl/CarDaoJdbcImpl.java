@@ -30,7 +30,7 @@ public class CarDaoJdbcImpl implements CarDao {
             ResultSet resultSet = preparedStatement.getGeneratedKeys();
             if (resultSet.next()) {
                 car.setId(resultSet.getObject(1, Long.class));
-                addDriversForCar(car);
+                addDriversToCar(car);
             }
             return car;
         } catch (SQLException e) {
@@ -93,8 +93,8 @@ public class CarDaoJdbcImpl implements CarDao {
             preparedStatement.setLong(2, car.getManufacturer().getId());
             preparedStatement.setLong(3, car.getId());
             preparedStatement.executeUpdate();
-            deleteDriversForCar(car.getId());
-            addDriversForCar(car);
+            deleteDriversFromCar(car.getId());
+            addDriversToCar(car);
             int updateRows = preparedStatement.executeUpdate();
             if (updateRows > 0) {
                 return car;
@@ -111,7 +111,7 @@ public class CarDaoJdbcImpl implements CarDao {
         try (Connection connection = ConnectionUtil.getConnection();
                 PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setLong(1, id);
-            deleteDriversForCar(id);
+            deleteDriversFromCar(id);
             int updateRows = preparedStatement.executeUpdate();
             return updateRows > 0;
         } catch (SQLException e) {
@@ -193,7 +193,7 @@ public class CarDaoJdbcImpl implements CarDao {
         }
     }
 
-    private void deleteDriversForCar(Long carId) {
+    private void deleteDriversFromCar(Long carId) {
         String query = "DELETE FROM cars_drivers WHERE car_id = ?";
         try (Connection connection = ConnectionUtil.getConnection();
                 PreparedStatement preparedStatement = connection.prepareStatement(query)) {
@@ -204,7 +204,7 @@ public class CarDaoJdbcImpl implements CarDao {
         }
     }
 
-    private void addDriversForCar(Car car) {
+    private void addDriversToCar(Car car) {
         String query = "INSERT cars_drivers (driver_id, car_id) VALUES (?, ?) ";
         try (Connection connection = ConnectionUtil.getConnection();
                 PreparedStatement preparedStatement = connection.prepareStatement(query)) {
@@ -219,5 +219,4 @@ public class CarDaoJdbcImpl implements CarDao {
             throw new DataProcessingException("Can't add drivers for the car " + car, e);
         }
     }
-
 }
