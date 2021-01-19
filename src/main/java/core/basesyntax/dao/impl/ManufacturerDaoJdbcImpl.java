@@ -18,7 +18,7 @@ import java.util.Optional;
 public class ManufacturerDaoJdbcImpl implements ManufacturerDao {
     @Override
     public Manufacturer create(Manufacturer manufacturer) {
-        String query = "INSERT manufacturers (name, country)"
+        String query = "INSERT INTO manufacturers (name, country)"
                 + " VALUES (?, ?)";
         try (Connection connection = ConnectionUtil.getConnection();
                 PreparedStatement preparedStatement =
@@ -38,7 +38,7 @@ public class ManufacturerDaoJdbcImpl implements ManufacturerDao {
 
     @Override
     public Optional<Manufacturer> get(Long id) {
-        String query = "SELECT * FROM manufacturers m WHERE m.id = ? AND m.deleted = false";
+        String query = "SELECT * FROM manufacturers WHERE id = ? AND deleted = false";
         try (Connection connection = ConnectionUtil.getConnection();
                 PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setLong(1, id);
@@ -71,8 +71,8 @@ public class ManufacturerDaoJdbcImpl implements ManufacturerDao {
 
     @Override
     public Manufacturer update(Manufacturer manufacturer) {
-        String query = "UPDATE manufacturers m SET m.name = ? , m.country = ? "
-                + "WHERE m.id = ? AND m.deleted = false";
+        String query = "UPDATE manufacturers SET name = ? , country = ? "
+                + "WHERE id = ? AND deleted = false";
         try (Connection connection = ConnectionUtil.getConnection();
                 PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setString(1, manufacturer.getName());
@@ -91,7 +91,7 @@ public class ManufacturerDaoJdbcImpl implements ManufacturerDao {
 
     @Override
     public boolean delete(Long id) {
-        String query = "UPDATE manufacturers m SET m.deleted = true WHERE m.id = ?";
+        String query = "UPDATE manufacturers SET deleted = true WHERE id = ?";
         try (Connection connection = ConnectionUtil.getConnection();
                 PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setLong(1, id);

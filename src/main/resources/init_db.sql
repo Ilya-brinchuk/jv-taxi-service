@@ -20,6 +20,15 @@ CREATE TABLE `cars` (
                         CONSTRAINT `cars_manufacturers` FOREIGN KEY (`manufacturer_id`) REFERENCES `manufacturers` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=46 DEFAULT CHARSET=utf8;
 
+CREATE TABLE `drivers` (
+                           `id` bigint NOT NULL AUTO_INCREMENT,
+                           `name` varchar(225) NOT NULL,
+                           `licence` varchar(225) NOT NULL,
+                           `deleted` tinyint(1) NOT NULL DEFAULT '0',
+                           PRIMARY KEY (`id`),
+                           UNIQUE KEY `driver_id_UNIQUE` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=103 DEFAULT CHARSET=utf8;
+
 CREATE TABLE `cars_drivers` (
                                 `driver_id` bigint NOT NULL,
                                 `car_id` bigint NOT NULL,
@@ -29,13 +38,5 @@ CREATE TABLE `cars_drivers` (
                                 CONSTRAINT `cars_drivers_cars` FOREIGN KEY (`car_id`) REFERENCES `cars` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `drivers` (
-                           `id` bigint NOT NULL AUTO_INCREMENT,
-                           `name` varchar(225) NOT NULL,
-                           `licence` varchar(225) NOT NULL,
-                           `deleted` tinyint(1) NOT NULL DEFAULT '0',
-                           PRIMARY KEY (`id`),
-                           UNIQUE KEY `driver_id_UNIQUE` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=103 DEFAULT CHARSET=utf8
 
 
