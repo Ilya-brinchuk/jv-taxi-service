@@ -4,6 +4,16 @@
     <title>MATE</title>
   </head>
   <body>
-  <h1>Hello World!</h1>
+  <h1>Taxi service</h1>
+  <h2>Menu</h2>
+  <a href="${pageContext.request.contextPath}/manufacturers/add">add manufacturer</a>
+  <br>
+  <a href="${pageContext.request.contextPath}/drivers/add">add driver</a>
+  <br>
+  <a href="${pageContext.request.contextPath}/drivers">show the list of all drivers</a>
+  <br>
+  <a href="${pageContext.request.contextPath}/cars/add">add car</a>
+  <br>
+  <a href="${pageContext.request.contextPath}/cars/drivers/add">add driver to the car</a>
   </body>
 </html>
