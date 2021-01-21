@@ -5,10 +5,9 @@
 </head>
 <body>
 <h1>Please enter company name and country of brand registration: </h1>
-<h4 style="color: red">${message}</h4>
 <form method="post" action="${pageContext.request.contextPath}/manufacturers/add">
-    Company name: <input required="" type="text" name="name">
-    Country of brand registration: <input required="" type="text" name="country">
+    Company name: <input type="text" name="name" required>
+    Country of brand registration: <input type="text" name="country" required>
     <button type="submit">register</button>
 </form>
 <a href="${pageContext.request.contextPath}/" style="color: blue">Return to the main menu</a>

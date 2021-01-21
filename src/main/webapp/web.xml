@@ -20,11 +20,11 @@
         <url-pattern>/drivers</url-pattern>
     </servlet-mapping>
     <servlet>
-        <servlet-name>creatDriver</servlet-name>
+        <servlet-name>createDriver</servlet-name>
         <servlet-class>core.basesyntax.controllers.CreateDriverController</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>creatDriver</servlet-name>
+        <servlet-name>createDriver</servlet-name>
         <url-pattern>/drivers/add</url-pattern>
     </servlet-mapping>
     <servlet>
@@ -36,12 +36,12 @@
         <url-pattern>/manufacturers/add</url-pattern>
     </servlet-mapping>
     <servlet>
-        <servlet-name>injectData</servlet-name>
-        <servlet-class>core.basesyntax.controllers.InjectData</servlet-class>
+        <servlet-name>confirm</servlet-name>
+        <servlet-class>core.basesyntax.controllers.ConfirmationController</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>injectData</servlet-name>
-        <url-pattern>/inform</url-pattern>
+        <servlet-name>confirm</servlet-name>
+        <url-pattern>/confirm</url-pattern>
     </servlet-mapping>
     <servlet>
         <servlet-name>addDriverToCar</servlet-name>

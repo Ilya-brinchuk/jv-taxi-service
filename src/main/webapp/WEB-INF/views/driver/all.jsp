@@ -1,5 +1,4 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -11,11 +10,15 @@
 <a href="${pageContext.request.contextPath}/cars/drivers/add">add driver to the car</a>
 <table border="1">
     <tr>
+        <th>Id</th>
         <th>Name</th>
-        <th>Licence number</th>
+        <th>Licence</th>
     </tr>
     <c:forEach var="driver" items="${drivers}">
         <tr>
+            <td>
+                <c:out value="${driver.id}"/>
+            </td>
             <td>
                 <c:out value="${driver.name}"/>
             </td>

@@ -11,13 +11,13 @@ import javax.servlet.http.HttpServletResponse;
 
 public class CreateManufacturerController extends HttpServlet {
     private static final Injector injector = Injector.getInstance("core.basesyntax");
-    ManufacturerService manufacturerService = (ManufacturerService)
+    private final ManufacturerService manufacturerService = (ManufacturerService)
             injector.getInstance(ManufacturerService.class);
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-        req.getRequestDispatcher("/WEB-INF/views/manufacturer/addManufacturer.jsp")
+        req.getRequestDispatcher("/WEB-INF/views/manufacturer/add.jsp")
                 .forward(req, resp);
     }
 
@@ -27,13 +27,8 @@ public class CreateManufacturerController extends HttpServlet {
         String name = req.getParameter("name");
         String country = req.getParameter("country");
         System.out.println(name + " " + country);
-        if (country.replaceAll("[^a-zA-z]", "").length() != country.length()) {
-            req.setAttribute("message", "You entered a non-existent country");
-            req.getRequestDispatcher("/WEB-INF/views/manufacturer/addManufacturer.jsp")
-                    .forward(req, resp);
-        }
         Manufacturer manufacturer = new Manufacturer(name, country);
         manufacturerService.create(manufacturer);
-        resp.sendRedirect(req.getContextPath() + "/inform");
+        resp.sendRedirect(req.getContextPath() + "/confirm");
     }
 }

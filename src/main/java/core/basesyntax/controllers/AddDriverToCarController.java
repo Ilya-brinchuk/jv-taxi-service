@@ -13,13 +13,14 @@ import javax.servlet.http.HttpServletResponse;
 
 public class AddDriverToCarController extends HttpServlet {
     private static final Injector injector = Injector.getInstance("core.basesyntax");
-    CarService carService = (CarService) injector.getInstance(CarService.class);
-    DriverService driverService = (DriverService) injector.getInstance(DriverService.class);
+    private final CarService carService = (CarService) injector.getInstance(CarService.class);
+    private final DriverService driverService = (DriverService)
+            injector.getInstance(DriverService.class);
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-        req.getRequestDispatcher("/WEB-INF/views/car/addDriversToCar.jsp").forward(req, resp);
+        req.getRequestDispatcher("/WEB-INF/views/car/add-driver.jsp").forward(req, resp);
     }
 
     @Override
@@ -29,6 +30,6 @@ public class AddDriverToCarController extends HttpServlet {
         Driver driver = driverService.get(driverId);
         Car car = carService.get(carId);
         carService.addDriverToCar(driver, car);
-        resp.sendRedirect(req.getContextPath() + "/inform");
+        resp.sendRedirect(req.getContextPath() + "/confirm");
     }
 }
