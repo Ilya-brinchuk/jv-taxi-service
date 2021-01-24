@@ -38,5 +38,11 @@ CREATE TABLE `cars_drivers` (
                                 CONSTRAINT `cars_drivers_cars` FOREIGN KEY (`car_id`) REFERENCES `cars` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+ALTER TABLE `drivers`
+    ADD COLUMN `login` VARCHAR(45) NOT NULL AFTER `deleted`,
+    ADD COLUMN `password` VARCHAR(45) NOT NULL AFTER `login`;
 
 
+ALTER TABLE `drivers`
+    ADD UNIQUE INDEX `login_UNIQUE` (`login` ASC) VISIBLE;
+;
