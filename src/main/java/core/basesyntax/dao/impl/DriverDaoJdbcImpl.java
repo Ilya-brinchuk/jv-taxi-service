@@ -78,9 +78,9 @@ public class DriverDaoJdbcImpl implements DriverDao {
                 PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setString(1, driver.getName());
             preparedStatement.setString(2, driver.getLicenceNumber());
-            preparedStatement.setLong(3, driver.getId());
-            preparedStatement.setString(4, driver.getLogin());
-            preparedStatement.setString(5, driver.getPassword());
+            preparedStatement.setString(3, driver.getLogin());
+            preparedStatement.setString(4, driver.getPassword());
+            preparedStatement.setLong(5, driver.getId());
             int updateRows = preparedStatement.executeUpdate();
             if (updateRows > 0) {
                 return driver;
