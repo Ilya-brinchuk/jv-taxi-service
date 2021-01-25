@@ -5,19 +5,20 @@ import core.basesyntax.lib.Inject;
 import core.basesyntax.lib.Service;
 import core.basesyntax.model.Driver;
 import core.basesyntax.service.DriverService;
+import java.util.Optional;
 
 @Service
 public class AuthenticationServiceForDriver implements AuthenticationService<Driver> {
     @Inject
-    DriverService driverService;
+    private DriverService driverService;
 
     @Override
-    public Driver login(String login, String password) {
-        Driver driver = driverService.findByLogin(login)
-                .orElseThrow(() -> new AuthenticationException("Wrong login"));
-        if (driver.getPassword().equals(password)) {
-            return driver;
+    public Driver login(String login, String password) throws AuthenticationException {
+        Optional<Driver> driverFromDB = driverService.findByLogin(login);
+        if (driverFromDB.isPresent()
+                && driverFromDB.get().getPassword().equals(password)) {
+            return driverFromDB.get();
         }
-        throw new AuthenticationException("Wrong password");
+        throw new AuthenticationException("Incorrect username or password");
     }
 }
